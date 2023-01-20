@@ -1,0 +1,7 @@
+python
+django
+djangorestframework
+django-extensions
+django-filter
+django-cors-headers
+pyjwt
