@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
@@ -40,14 +40,8 @@ class CartItemViewSet(ModelViewSet):
             items.append({item['product']: item['quantity']})
             total += item['total_price']
         
-        response = {
-            'items': items,
-            'in total': total
-            }
-        
         stc_price.create_stripe_price(total)
-        return redirect('http://127.0.0.1:8000/landing/')
-        return Response(response)
+        return render(request, 'landing.html', context={'total': total})
         
 
     def list(self, request, *args, **kwargs):

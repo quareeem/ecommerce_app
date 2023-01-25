@@ -21,9 +21,8 @@ class CancelView(TemplateView):
 
 class CreateCheckoutSessionView(APIView):
     def post(self, request, *args, **kwargs):
-        DOMAIN = 'http://127.0.0.1:8000/success'
+        DOMAIN = 'http://127.0.0.1:8000/'
         try:
-            print(st_price['id'])
             checkout_session = stripe.checkout.Session.create(
                 success_url='http://127.0.0.1:8000/success/',
                 cancel_url='http://127.0.0.1:8000/cancel/',
@@ -33,14 +32,9 @@ class CreateCheckoutSessionView(APIView):
                     {
                         'quantity': 1,
                         'price': st_price['id'],
-                        # 'name': 'T-shirt',
-                        # 'currency': 'usd',
-                        # 'amount': '2000',
                     }
                 ]
             )
             return redirect(checkout_session.url)
-            # return Response({'sessionId': checkout_session['id']})
         except Exception as e:
             return Response({'error': str(e)})
-            
