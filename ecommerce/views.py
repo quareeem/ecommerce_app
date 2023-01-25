@@ -1,5 +1,5 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.conf import settings
+from django.shortcuts import redirect
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
@@ -8,7 +8,11 @@ from .serializers import ProductSerializer, CategorySerializer, CartItemSerializ
 from .models import Product, Category, CartItem
 from .permissions import IsAuthorOrForbidden
 import json
+import stripe
+from payments import stripe_create_prices as stc_price
 
+
+stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
 
 
 class ProductViewSet(ModelViewSet):
@@ -40,6 +44,9 @@ class CartItemViewSet(ModelViewSet):
             'items': items,
             'in total': total
             }
+        
+        stc_price.create_stripe_price(total)
+        return redirect('http://127.0.0.1:8000/landing/')
         return Response(response)
         
 
