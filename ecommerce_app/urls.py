@@ -6,12 +6,6 @@ from ecommerce import views as e_views
 from accounts import urls as a_urls
 from payments.views import CreateCheckoutSessionView, ProductLandingPageView, SuccessView, CancelView
 
-# from knox import views as knox_views
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 
 router = SimpleRouter()
